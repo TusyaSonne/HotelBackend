@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Пользователи</title>
+    <link rel="stylesheet" href="/css/index.css">
+</head>
+<body>
+<header>
+    <div class="container">
+        <a href="/" class="btn header-btn">На главную</a>
+        <h1>Список пользователей</h1>
+        <form class="logout-form" th:action="@{/logout}" th:method="POST">
+            <input type="submit" value="Выйти">
+        </form>
+    </div>
+</header>
+
+<main>
+    <div class="container">
+        <section class="model-list">
+            <div class="model-card" th:each="person : ${people}">
+                <a class="model-link" th:href="@{/people/{id}(id=${person.getId()})}" th:text="${person.getFullName()}">
+                    Пользователь
+                </a>
+            </div>
+        </section>
+        <hr />
+        <div class="actions">
+            <a href="/people/new" class="btn">Добавить нового пользователя</a>
+        </div>
+    </div>
+</main>
+
+<footer>
+    <div class="container">
+        <p>Курсовая работа 2024</p>
+    </div>
+</footer>
+</body>
+</html>

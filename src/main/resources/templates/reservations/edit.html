@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Изменить бронь</title>
+    <link rel="stylesheet" href="/css/index.css">
+</head>
+<body>
+<header>
+    <div class="container">
+        <h1>Изменить бронь</h1>
+        <a  th:href="@{/reservations/{id}(id=${reservation.getId()})}" class="btn header-btn">Отмена</a>
+        <form class="logout-form" th:action="@{/logout}" th:method="POST">
+            <input type="submit" value="Выйти">
+        </form>
+    </div>
+</header>
+
+<main>
+    <div class="container">
+        <form th:method="PATCH" th:action="@{/reservations/{id}(id=${reservation.getId()})}" th:object="${reservation}" class="form-container">
+            <input type="hidden" th:field="*{owner.id}" />
+
+            <label for="room">Выберите номер:</label>
+            <select th:field="*{room}" id="room" class="form-input">
+                <option th:each="room : ${rooms}" th:value="${room.getId()}"
+                        th:text="${room.getCapacity() + '-х местная, ' + room.getPricePerNight() + ' за ночь'}"></option>
+            </select>
+            <br />
+
+            <label for="checkIn">Дата заезда:</label>
+            <input type="date" th:field="*{checkIn}" id="checkIn" class="form-input">
+            <div style="color:red" th:if="${#fields.hasErrors()}" th:errors="*{checkIn}" class="error-message">Ошибка заезда</div>
+
+            <label for="checkOut">Дата выезда:</label>
+            <input type="date" th:field="*{checkOut}" id="checkOut" class="form-input">
+            <div style="color:red" th:if="${#fields.hasErrors()}" th:errors="*{checkOut}" class="error-message">Ошибка выезда</div>
+
+            <input type="submit" value="Изменить бронь" class="btn">
+        </form>
+
+        <hr />
+
+        <div class="actions">
+            <form th:method="DELETE" th:action="@{/reservations/{id}(id=${reservation.getId()})}" class="delete-form" onsubmit="return confirmDelete();">
+                <input type="submit" value="Удалить бронь" class="btn btn-danger">
+            </form>
+        </div>
+    </div>
+</main>
+
+<footer>
+    <div class="container">
+        <p>Курсовая работа 2024</p>
+    </div>
+</footer>
+
+<script>
+    function confirmDelete() {
+        return confirm("Вы уверены, что хотите удалить бронь?");
+    }
+</script>
+
+</body>
+</html>

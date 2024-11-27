@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Добавить бронь</title>
+    <link rel="stylesheet" href="/css/index.css">
+</head>
+<body>
+<header>
+    <div class="container">
+        <h1>Добавить бронь</h1>
+        <a  href="/reservations" class="btn header-btn">К броням</a>
+        <form class="logout-form" th:action="@{/logout}" th:method="POST">
+            <input type="submit" value="Выйти">
+        </form>
+    </div>
+</header>
+
+<main>
+    <div class="container">
+        <form th:method="POST" th:action="@{/reservations}" th:object="${reservation}" class="form-container">
+
+            <div th:if="${clients != null}">
+                <label for="client">Выберите гостя:</label>
+                <select th:field="*{owner}" id="client" class="form-input">
+                    <option th:each="client : ${clients}" th:value="${client.getId()}" th:text="${client.getFullName()}"></option>
+                </select>
+            </div>
+
+            <label for="room" th:if= "${reservation.room == null}">Выберите номер:</label>
+            <label for="room" th:if= "${reservation.room != null}" th:text="${'Номер ' + reservation.room.getId() + ', ' + reservation.room.getCapacity() + '-x местная, ' + reservation.room.getPricePerNight() + ' за ночь'}"></label>
+
+            <input type="hidden" th:if="${reservation.room != null}" th:field="*{room.id}" />
+            <input type="hidden" th:if="${reservation.room != null}" th:field="*{room.capacity}" />
+            <input type="hidden" th:if="${reservation.room != null}" th:field="*{room.pricePerNight}" />
+
+            <select th:field="*{room}" id="room" th:if="${reservation.room == null}" class="form-input">
+                <option th:each="room : ${rooms}" th:value="${room.getId()}"
+                        th:text="${room.getCapacity() + '-x местная, ' + room.getPricePerNight() + ' за ночь'}"></option>
+            </select>
+
+            <label for="checkIn">Дата заезда:</label>
+            <input type="date" th:field="*{checkIn}" id="checkIn" class="form-input">
+            <div style="color:red" th:if="${#fields.hasErrors()}" th:errors="*{checkIn}" class="error-message">Ошибка заезда</div>
+
+            <label for="checkOut">Дата выезда:</label>
+            <input type="date" th:field="*{checkOut}" id="checkOut" class="form-input">
+            <div style="color:red" th:if="${#fields.hasErrors()}" th:errors="*{checkOut}" class="error-message">Ошибка выезда</div>
+
+            <input type="submit" value="Добавить бронь" class="btn">
+        </form>
+
+    </div>
+</main>
+
+<footer>
+    <div class="container">
+        <p>Курсовая работа 2024</p>
+    </div>
+</footer>
+
+</body>
+</html>

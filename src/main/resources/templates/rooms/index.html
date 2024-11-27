@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Все номера</title>
+    <link rel="stylesheet" href="/css/index.css">
+</head>
+<body>
+<header>
+    <div class="container">
+        <a href="/" class="btn header-btn">На главную</a>
+        <h1>Список номеров</h1>
+        <form class="logout-form" th:action="@{/logout}" th:method="POST">
+            <input type="submit" value="Выйти">
+        </form>
+    </div>
+</header>
+
+<main>
+    <div class="container">
+        <section class="model-list">
+            <div class="model-card" th:each="room : ${rooms}">
+                <a class="model-link" th:href="@{/rooms/{id}(id=${room.getId()})}"
+                   th:text="'Номер ' + ${room.getId()}">
+                    Номер
+                </a>
+            </div>
+        </section>
+        <hr />
+        <div class="actions" th:if="${role.equals('ROLE_ADMIN')}">
+            <a href="/rooms/new" class="btn">Добавить новый номер</a>
+        </div>
+    </div>
+</main>
+
+<footer>
+    <div class="container">
+        <p>Курсовая работа 2024</p>
+    </div>
+</footer>
+</body>
+</html>

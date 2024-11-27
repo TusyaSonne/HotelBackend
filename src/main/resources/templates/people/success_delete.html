@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Пользователь удален</title>
+    <link rel="stylesheet" href="/css/index.css"> <!-- Подключаем внешний CSS -->
+</head>
+<body>
+
+<div class="container">
+    <h1>Пользователь успешно удалён</h1>
+
+    <form th:if="${role.equals('ROLE_CLIENT')}" th:action="@{/logout}" th:method="POST" class="form-container">
+        <input type="submit" value="Войти" class="btn">
+    </form>
+
+    <a th:if="${role.equals('ROLE_ADMIN')}" href="/people" class="btn">К пользователям</a>
+</div>
+
+</body>
+</html>

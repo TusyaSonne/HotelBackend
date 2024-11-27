@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Вход</title>
+  <link rel="stylesheet" href="/css/auth.css">
+</head>
+<body>
+<header>
+  <div class="container">
+    <h1>Сервис бронирования</h1>
+  </div>
+</header>
+
+<main>
+  <div class="container">
+    <form name="f" method="post" action="/process_login">
+      <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+
+      <label for="username">Введите почту:</label>
+      <input type="text" name="username" id="username" placeholder="example@mail.com">
+      <br />
+
+      <label for="password">Введите пароль:</label>
+      <input type="password" name="password" id="password" placeholder="Ваш пароль">
+      <br />
+
+      <div th:if="${param.error}" class="error">
+        Неправильная почта или пароль
+      </div>
+
+      <div class="form-actions">
+        <input type="submit" value="Войти">
+      </div>
+    </form>
+
+    <p class="registration-link">
+      <a href="/auth/registration">Зарегистрироваться</a>
+    </p>
+  </div>
+</main>
+
+<footer>
+  <div class="container">
+    <p>Курсовая работа 2024</p>
+  </div>
+</footer>
+</body>
+</html>

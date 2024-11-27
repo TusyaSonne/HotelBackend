@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Все брони</title>
+    <link rel="stylesheet" href="/css/index.css">
+</head>
+<body>
+<header>
+    <div class="container">
+        <h1>Список броней</h1>
+        <a  href="/" class="btn header-btn">На главную</a>
+        <form class="logout-form" th:action="@{/logout}" th:method="POST">
+            <input type="submit" value="Выйти">
+        </form>
+    </div>
+</header>
+
+<main>
+    <div class="container">
+        <section class="model-list">
+            <div class="model-card" th:each="reservation : ${reservations}">
+                <a class="model-link" th:href="@{/reservations/{id}(id=${reservation.getId()})}"
+                   th:text="'Бронь № ' + ${reservation.getId()} + ', номер ' + ${reservation.getRoom().getId()} + ', с ' + ${reservation.getCheckIn()} + ' до ' + ${reservation.getCheckOut()}">
+                    Бронь
+                </a>
+            </div>
+        </section>
+        <hr />
+        <div th:if="${currentUser.getRole().equals('ROLE_ADMIN')}" class="actions">
+            <a href="/reservations/new" class="btn">Добавить новую бронь</a>
+        </div>
+    </div>
+</main>
+
+<footer>
+    <div class="container">
+        <p>Курсовая работа 2024</p>
+    </div>
+</footer>
+</body>
+</html>

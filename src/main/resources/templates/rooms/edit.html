@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Изменить номер</title>
+    <link rel="stylesheet" href="/css/index.css">
+</head>
+<body>
+<header>
+    <div class="container">
+        <a th:href="@{/rooms/{id}(id=${room.getId()})}" class="btn header-btn">Отмена</a>
+        <h1>Изменить номер</h1>
+        <form class="logout-form" th:action="@{/logout}" th:method="POST">
+            <input type="submit" value="Выйти">
+        </form>
+    </div>
+</header>
+
+<main>
+    <div class="container">
+        <form th:method="PATCH" th:action="@{/rooms/{id}(id=${room.getId()})}" th:object="${room}" class="form-container">
+
+            <label for="capacity">Вместимость (на сколько человек):</label>
+            <input type="text" th:field="*{capacity}" id="capacity" class="form-input">
+            <div style="color:red" th:if="${#fields.hasErrors()}" th:errors="*{capacity}" class="error-message">Ошибка вместимости</div>
+
+            <label for="pricePerNight">Цена за ночь:</label>
+            <input type="text" th:field="*{pricePerNight}" id="pricePerNight" class="form-input">
+            <div style="color:red" th:if="${#fields.hasErrors()}" th:errors="*{pricePerNight}" class="error-message">Ошибка цены</div>
+
+            <input type="submit" value="Изменить номер" class="btn">
+        </form>
+
+        <hr />
+
+        <div class="actions">
+            <form th:method="DELETE" th:action="@{/rooms/{id}(id=${room.getId()})}" class="delete-form" onsubmit="return confirmDelete();">
+                <input type="submit" value="Удалить номер" class="btn btn-danger">
+            </form>
+        </div>
+
+    </div>
+</main>
+
+<footer>
+    <div class="container">
+        <p>Курсовая работа 2024</p>
+    </div>
+</footer>
+
+<script>
+    function confirmDelete() {
+        return confirm("Вы уверены, что хотите удалить номер?");
+    }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Регистрация</title>
+    <link rel="stylesheet" href="/css/auth.css">
+</head>
+<body>
+<header>
+    <div class="container">
+        <h1>Сервис бронирования</h1>
+    </div>
+</header>
+
+<main>
+    <div class="container">
+        <form th:method="POST" th:action="@{/auth/registration}" th:object="${person}">
+            <label for="full_name">Введите ваше ФИО:</label>
+            <input type="text" th:field="*{fullName}" id="full_name" placeholder="Иванов Иван Иванович">
+            <div class="error" th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}">Full Name Error</div>
+            <br />
+
+            <label for="email">Введите вашу почту:</label>
+            <input type="text" th:field="*{email}" id="email" placeholder="example@mail.com">
+            <div class="error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email Error</div>
+            <br />
+
+            <label for="phone">Введите ваш телефон:</label>
+            <input type="text" th:field="*{phone}" id="phone" placeholder="+78005553535">
+            <div class="error" th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}">Phone Error</div>
+            <br />
+
+            <label for="password">Придумайте пароль:</label>
+            <input type="password" th:field="*{password}" id="password" placeholder="Ваш пароль">
+            <div class="error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password Error</div>
+            <br />
+
+            <div class="form-actions">
+                <input type="submit" value="Зарегистрироваться">
+            </div>
+        </form>
+    </div>
+</main>
+
+<footer>
+    <div class="container">
+        <p>Курсовая работа 2024</p>
+    </div>
+</footer>
+</body>
+</html>

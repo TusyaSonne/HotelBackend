@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="'Номер ' + ${room.getId()}">Номер</title>
+    <link rel="stylesheet" href="/css/index.css">
+</head>
+<body>
+<header>
+    <div class="container">
+        <a href="/rooms" class="btn header-btn">К комнатам</a>
+        <h1 th:text="'Номер ' + ${room.getId()}">Номер</h1>
+        <form class="logout-form" th:action="@{/logout}" th:method="POST">
+            <input type="submit" value="Выйти">
+        </form>
+    </div>
+</header>
+
+<main>
+    <div class="container">
+        <section class="room-details">
+            <p><strong>Вместимость:</strong> <span th:text="${room.getCapacity()} + '-х человек'">Вместимость</span></p>
+            <p><strong>Цена за ночь:</strong> <span th:text="${room.getPricePerNight()} + ' ₽'">Цена</span></p>
+            <p th:if="${owner != null}">
+                <strong>Статус:</strong>
+                <span th:if="${role.equals('ROLE_ADMIN')}" th:text="'Сейчас номер занят гостем - ' + ${owner.getFullName()}">
+          Занято
+        </span>
+                <span th:if="${role.equals('ROLE_CLIENT')}" th:text="'Сейчас номер занят'">Занято</span>
+            </p>
+            <p th:if="${owner == null}">
+                <strong>Статус:</strong> <span>Свободно</span>
+            </p>
+        </section>
+
+        <div class="actions">
+            <a th:href="@{/reservations/new(roomId=${room.getId()})}" class="btn">Забронировать</a>
+            <div th:if="${role.equals('ROLE_ADMIN')}">
+                <a th:href="@{/rooms/{id}/edit(id=${room.getId()})}" class="btn">Изменить</a>
+            </div>
+<!--            <a href="/rooms" class="btn btn-secondary">Назад</a>-->
+        </div>
+    </div>
+</main>
+
+<footer>
+    <div class="container">
+        <p>Курсовая работа 2024</p>
+    </div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Главная страница</title>
+  <link rel="stylesheet" href="/css/style.css"> <!-- Подключение стилей -->
+</head>
+<body>
+<header>
+  <div class="container">
+    <h1>Сервис бронирования</h1>
+    <form class="logout-form" th:action="@{/logout}" th:method="POST">
+      <input type="submit" value="Выйти">
+    </form>
+    <nav>
+      <ul th:if="${person.getRole().equals('ROLE_CLIENT')}">
+        <li><a th:href="@{/people/{id}(id=${person.getId()})}">Мои данные</a></li>
+        <li><a th:href="@{/rooms}">Забронировать номер</a></li>
+        <li><a th:href="@{/reservations}">Мои брони</a></li>
+      </ul>
+
+      <ul th:if="${person.getRole().equals('ROLE_ADMIN')}">
+        <li><a th:href="@{/people}">Управление клиентами</a></li>
+        <li><a th:href="@{/rooms}">Управление номерами</a></li>
+        <li><a th:href="@{/reservations}">Управления бронированиями</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="container">
+    <section>
+      <h2>Добро пожаловать, <span th:text="${person.getFullName()}">Имя пользователя</span>!</h2>
+      <p th:if="${person.getRole().equals('ROLE_CLIENT')}">Здесь вы можете забронировать номер в нашей гостинице!</p>
+      <p th:if="${person.getRole().equals('ROLE_ADMIN')}">Управление номерами, бронированиями, клиентами.</p>
+    </section>
+  </div>
+</main>
+
+<footer>
+  <div class="container">
+    <p>Сервис выполнен Дженбаз Артуром Ринатовичем в качестве курсовой работы по РСЧИР 2024</p>
+  </div>
+</footer>
+</body>
+</html>

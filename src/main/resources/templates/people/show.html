@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${person.getFullName()}">Клиент</title>
+    <link rel="stylesheet" href="/css/index.css">
+</head>
+<body>
+<header>
+    <div class="container">
+        <a th:if="${role.equals('ROLE_ADMIN')}" href="/people" class="btn header-btn">К пользователям</a>
+        <a th:if="${role.equals('ROLE_CLIENT')}" href="/" class="btn header-btn">На главную</a>
+        <h1 th:text="${person.getFullName()}">Клиент</h1>
+        <form class="logout-form" th:action="@{/logout}" th:method="POST">
+            <input type="submit" value="Выйти">
+        </form>
+    </div>
+</header>
+
+<main>
+    <div class="container">
+        <section class="person-details">
+            <p><strong>ФИО:</strong> <span th:text="${person.getFullName()}">Имя пользователя</span></p>
+            <p><strong>Email:</strong> <span th:text="${person.getEmail()}">Email</span></p>
+            <p><strong>Телефон:</strong> <span th:text="${person.getPhone()}">Телефон</span></p>
+        </section>
+
+        <section class="model-list" th:if="${role.equals('ROLE_ADMIN')}">
+            <h2>Брони пользователя:</h2>
+            <a th:if="${person.getReservations().isEmpty()}">У пользователя ещё нет броней.</a>
+            <div class="model-card" th:each="reservation : ${person.getReservations()}">
+                <a class="model-link" th:href="@{/reservations/{id}(id=${reservation.getId()})}"
+                   th:text="'Бронь № ' + ${reservation.getId()}">Бронь</a>
+            </div>
+        </section>
+
+        <div class="actions">
+            <a th:href="@{/people/{id}/edit(id=${person.getId()})}" class="btn">Изменить</a>
+        </div>
+    </div>
+</main>
+
+<footer>
+    <div class="container">
+        <p>Курсовая работа 2024</p>
+    </div>
+</footer>
+</body>
+</html>

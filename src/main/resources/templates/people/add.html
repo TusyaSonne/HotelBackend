@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Добавить человека</title>
+    <link rel="stylesheet" href="/css/index.css">
+</head>
+<body>
+<header>
+    <div class="container">
+        <a href="/people" class="btn header-btn">К пользователям</a>
+        <h1>Добавить нового пользователя</h1>
+        <form class="logout-form" th:action="@{/logout}" th:method="POST">
+            <input type="submit" value="Выйти">
+        </form>
+    </div>
+</header>
+
+<main>
+    <div class="container">
+        <form th:method="POST" th:action="@{/people}" th:object="${person}" class="form-container">
+
+            <label for="fullName">Введите ФИО:</label>
+            <input type="text" th:field="*{fullName}" id="fullName" class="form-input">
+            <div style="color:red" th:if="${#fields.hasErrors()}" th:errors="*{fullName}" class="error-message">Ошибка ФИО</div>
+
+            <label for="email">Введите почту:</label>
+            <input type="text" th:field="*{email}" id="email" class="form-input">
+            <div style="color:red" th:if="${#fields.hasErrors()}" th:errors="*{email}" class="error-message">Ошибка почты</div>
+
+            <label for="password">Введите пароль:</label>
+            <input type="text" th:field="*{password}" id="password" class="form-input">
+            <div style="color:red" th:if="${#fields.hasErrors()}" th:errors="*{password}" class="error-message">Ошибка пароля</div>
+
+            <label for="phone">Введите телефон:</label>
+            <input type="text" th:field="*{phone}" id="phone" class="form-input">
+            <div style="color:red" th:if="${#fields.hasErrors()}" th:errors="*{phone}" class="error-message">Ошибка телефона</div>
+
+            <label for="role">Выберите роль:</label>
+            <select th:field="*{role}" id="role" class="form-input">
+                <option th:each="role : ${roles}" th:value="${role}" th:text="${role}"></option>
+            </select>
+
+            <input type="submit" value="Добавить человека" class="btn">
+        </form>
+
+    </div>
+</main>
+
+<footer>
+    <div class="container">
+        <p>Курсовая работа 2024</p>
+    </div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="'Бронь № ' + ${reservation.getId()}">Бронь</title>
+    <link rel="stylesheet" href="/css/index.css">
+</head>
+<body>
+<header>
+    <div class="container">
+        <a  href="/reservations" class="btn header-btn">К броням</a>
+        <h1 th:text="'Бронь № ' + ${reservation.getId()}">Бронь</h1>
+        <form class="logout-form" th:action="@{/logout}" th:method="POST">
+            <input type="submit" value="Выйти">
+        </form>
+    </div>
+</header>
+
+<main>
+    <div class="container">
+        <section class="reservation-details">
+            <p><strong>Дата въезда:</strong> <span th:text="${reservation.getCheckIn()}">Дата въезда</span></p>
+            <p><strong>Дата выезда:</strong> <span th:text="${reservation.getCheckOut()}">Дата выезда</span></p>
+            <p><strong>Стоимость:</strong> <span th:text="${reservation.getTotalPrice()} + ' ₽'">Стоимость</span></p>
+            <p>
+                <strong>Номер:</strong>
+                <a class="room-link" th:href="@{/rooms/{id}(id=${room.getId()})}" th:text="${room.getId()}">
+                    Комната
+                </a>
+            </p>
+            <p th:if="${owner != null}">
+                <strong>Гость:</strong>
+                <a class="person-link" th:href="@{/people/{id}(id=${owner.getId()})}" th:text="${owner.getFullName()}">Гость</a>
+            </p>
+        </section>
+
+        <div class="actions">
+            <a th:href="@{/reservations/{id}/edit(id=${reservation.getId()})}" class="btn">Изменить</a>
+        </div>
+    </div>
+</main>
+
+<footer>
+    <div class="container">
+        <p>Курсовая работа 2024</p>
+    </div>
+</footer>
+</body>
+</html>

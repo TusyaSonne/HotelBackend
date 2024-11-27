@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Изменить человека</title>
+    <link rel="stylesheet" href="/css/index.css">
+</head>
+<body>
+<header>
+    <div class="container">
+        <a th:href="@{/people/{id}(id=${person.getId()})}" class="btn header-btn">Отмена</a>
+        <h1>Изменить данные пользователя</h1>
+        <form class="logout-form" th:action="@{/logout}" th:method="POST">
+            <input type="submit" value="Выйти">
+        </form>
+    </div>
+</header>
+
+<main>
+    <div class="container">
+        <form th:method="PATCH" th:action="@{/people/{id}(id=${person.getId()})}" th:object="${person}" class="form-container">
+
+            <label for="fullName">Введите ФИО:</label>
+            <input type="text" th:field="*{fullName}" id="fullName" class="form-input">
+            <div style="color:red" th:if="${#fields.hasErrors()}" th:errors="*{fullName}" class="error-message">Ошибка ФИО</div>
+
+            <label for="email">Введите почту:</label>
+            <input type="text" th:field="*{email}" id="email" class="form-input">
+            <div style="color:red" th:if="${#fields.hasErrors()}" th:errors="*{email}" class="error-message">Ошибка почты</div>
+
+            <label for="phone">Введите телефон:</label>
+            <input type="text" th:field="*{phone}" id="phone" class="form-input">
+            <div style="color:red" th:if="${#fields.hasErrors()}" th:errors="*{phone}" class="error-message">Ошибка телефона</div>
+
+            <div th:if="${roles != null}">
+                <label for="role">Выберите роль:</label>
+                <select th:field="*{role}" id="role" class="form-input">
+                    <option th:each="role : ${roles}" th:value="${role}" th:text="${role}"></option>
+                </select>
+            </div>
+
+            <input type="hidden" th:field="*{password}" />
+
+            <div th:if="${roles == null}">
+                <input type="hidden" th:field="*{role}" />
+            </div>
+
+            <input type="submit" value="Изменить данные" class="btn">
+        </form>
+
+        <hr />
+
+        <div th:if="${person.getId() == currentUser.getId()}">
+            <a th:href="@{/people/{id}/change-password(id=${currentUser.getId()})}" class="btn btn-secondary">Изменить пароль</a>
+        </div>
+
+
+        <div class="actions">
+            <form th:method="DELETE" th:action="@{/people/{id}(id=${person.getId()})}" class="delete-form" onsubmit="return confirmDelete();">
+                <input type="submit" value="Удалить пользователя" class="btn btn-danger">
+            </form>
+        </div>
+
+    </div>
+</main>
+
+<footer>
+    <div class="container">
+        <p>Курсовая работа 2024</p>
+    </div>
+</footer>
+
+<script>
+    function confirmDelete() {
+        return confirm("Вы уверены, что хотите удалить аккаунт?");
+    }
+</script>
+
+</body>
+</html>
