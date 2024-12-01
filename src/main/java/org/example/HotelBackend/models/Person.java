@@ -20,6 +20,7 @@ public class Person {
 
     @Column(name = "full_name")
     @NotEmpty(message = "ФИО не может быть пустым")
+    @Pattern(regexp = "[А-Я][а-я]+ [А-Я][а-я]+ [А-Я][а-я]+", message = "Введите корректное ФИО (Иванов Иван Иванович")
     private String fullName;
 
     @NotNull(message = "Пароль не может быть пустым")
