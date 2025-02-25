@@ -52,7 +52,7 @@
 ## Установка и запуск
 
 ### Требования
-- JDK 17 или выше
+- JDK 21 или выше
 - Maven 3.8+
 - PostgreSQL 14+
 - Git
@@ -114,6 +114,7 @@
     $$ LANGUAGE plpgsql;
 
     INSERT INTO Person(full_name, password, email, phone, role) VALUES ('Дженбаз Артур Ринатович', '$2a$10$VWZ3wVasGQHGErfkZYolL.Mp3RROEVw7DkVUSdYEsDK7yRMU1hvz2', 'artur.dzhenbaz@gmail.com', '+78005553545', 'ROLE_ADMIN');
+    INSERT INTO Room(capacity, price_per_night) VALUES (2, 2500.0), (2, 3500.0) ,(4, 5000.0);
    ```
 3. Обновите файл **application.properties** вашими данными:
   ```bash
