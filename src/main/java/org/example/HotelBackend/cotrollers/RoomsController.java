@@ -11,6 +11,9 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Controller
@@ -28,7 +31,9 @@ public class RoomsController {
 
     @GetMapping()
     public String showRooms(Model model) {
+
         model.addAttribute("rooms", roomsService.getRooms());
+        model.addAttribute("roomOccupancy", roomsService.getRoomsOccupancy());
         model.addAttribute("role", peopleService.getCurrentUser().getRole());
         return "rooms/index";
     }

@@ -3,18 +3,22 @@ package org.example.HotelBackend.services;
 import org.example.HotelBackend.models.Person;
 import org.example.HotelBackend.models.Reservation;
 import org.example.HotelBackend.repositories.ReservationsRepository;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
+@EnableAsync
 public class ReservationsService {
 
     private final ReservationsRepository reservationsRepository;
+    private final EmailService emailService;
 
-    public ReservationsService(ReservationsRepository reservationsRepository) {
+    public ReservationsService(ReservationsRepository reservationsRepository, EmailService emailService) {
         this.reservationsRepository = reservationsRepository;
+        this.emailService = emailService;
     }
 
     public List<Reservation> getReservations() {
@@ -29,6 +33,16 @@ public class ReservationsService {
     public void addReservation(Reservation reservation) {
         calculateTotalPrice(reservation);
         reservationsRepository.save(reservation);
+
+        // Отправка email после создания брони
+        String email = reservation.getOwner().getEmail();
+        String subject = "Подтверждение бронирования";
+        String content = String.format(
+                "Здравствуйте, %s!\n\nВы успешно забронировали номер в отеле.\n" +
+                        "Дата заезда: %s\nДата выезда: %s\nИтоговая стоимость: %.2f руб.\n\nСпасибо за выбор нашего отеля!",
+                reservation.getOwner().getFullName(), reservation.getCheckIn(), reservation.getCheckOut(), reservation.getTotalPrice()
+        );
+        emailService.sendMail(email, subject, content);
     }
 
     @Transactional

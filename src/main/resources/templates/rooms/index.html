@@ -21,8 +21,10 @@
     <div class="container">
         <section class="model-list">
             <div class="model-card" th:each="room : ${rooms}">
+                <!-- Добавляем класс для занятых номеров -->
                 <a class="model-link" th:href="@{/rooms/{id}(id=${room.getId()})}"
-                   th:text="'Номер ' + ${room.getId()}">
+                   th:text="'Номер ' + ${room.getId()}"
+                   th:classappend="${roomOccupancy[room.getId()] ? 'occupied-text' : ''}">
                     Номер
                 </a>
             </div>

@@ -35,6 +35,21 @@
       <h2>Добро пожаловать, <span th:text="${person.getFullName()}">Имя пользователя</span>!</h2>
       <p th:if="${person.getRole().equals('ROLE_CLIENT')}">Здесь вы можете забронировать номер в нашей гостинице!</p>
       <p th:if="${person.getRole().equals('ROLE_ADMIN')}">Управление номерами, бронированиями, клиентами.</p>
+
+      <!-- Блок с занятыми номерами для Администратора -->
+      <div th:if="${person.getRole().equals('ROLE_ADMIN')}">
+        <h3>Занятые номера:</h3>
+        <div th:if="${#lists.isEmpty(occupiedRooms)}">
+          <p>В данный момент ни один номер не занят.</p>
+        </div>
+        <div th:if="${!#lists.isEmpty(occupiedRooms)}">
+          <ul>
+            <li th:each="roomId : ${occupiedRooms}">
+              <a th:href="@{/rooms/{id}(id=${roomId})}" th:text="'Номер ' + ${roomId}"></a>
+            </li>
+          </ul>
+        </div>
+      </div>
     </section>
   </div>
 </main>

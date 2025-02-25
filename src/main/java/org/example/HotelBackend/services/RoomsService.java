@@ -9,7 +9,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -52,5 +54,20 @@ public class RoomsService {
 
     public Optional<Reservation> getCurrentReservation(int roomId) {
         return reservationsRepository.findCurrentReservationForRoom(roomId, LocalDate.now());
+    }
+
+    public Map<Integer, Boolean> getRoomsOccupancy() {
+
+        List<Room> rooms = roomsRepository.findAll();
+        // список для хранения информации о занятости номеров
+        Map<Integer,Boolean> roomOccupancy = new HashMap<>();
+
+        // Для каждого номера проверяем, есть ли активное бронирование
+        for (Room room : rooms) {
+            Optional<Reservation> reservation = getCurrentReservation(room.getId());
+            roomOccupancy.put(room.getId(), reservation.isPresent());
+        }
+
+        return roomOccupancy;
     }
 }

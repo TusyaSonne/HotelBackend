@@ -181,4 +181,9 @@ select.form-input {
     cursor: pointer;
 }
 
+/* Стили для занятых номеров */
+.occupied-text {
+    color: #773fd8; /* Красный для занятых номеров */
+    font-weight: bold;
+}
 
